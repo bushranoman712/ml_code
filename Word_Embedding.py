@@ -71,36 +71,7 @@ class WordEmbeddings(object):
         return xTrain, xTest, yTrain, yTest
     
     
-    def generate_glovepretrained_w2v_doc_or_tweet_keywords(self, w2v_file , keywords, y_train, vectors_per_document= 1):
-        w2vmodel = KeyedVectors.load_word2vec_format("F:\\Machine_Learning\\Basic_Models\\glove_word2vec.txt", limit=100000)
- 
-        
-        print("Glove Word 2 Vector File Loaded!")        
- 
-        vector = w2vmodel['easy']
-        print( "Shape of Vector:" + str(vector.shape))
-    
-        X_train_Vector = []
-        for kl in keywords:
-            vector_list = []
-            for word in kl[0:vectors_per_document]:
-                word = pre_pro.Clean_Text(word)
-                if word in w2vmodel.vocab:
-                    vector_list.append(w2vmodel[word])
-                else:
-                    vector_list.append(np.random.uniform(-0.1, 0.1, 300))
-            
-            X_train_Vector.append(vector_list)
-        
-        print( "length of Training Vectors:" + str(len(X_train_Vector)))
-        
-        X = numpy.array(X_train_Vector)
-        print( "length of Training Vectors" + str(len(X_train_Vector)))
-        
-        xTrain, xTest, yTrain, yTest = train_test_split(X, y_train, test_size = 0.2)
-        return xTrain, xTest, yTrain, yTest
-    
-    
+   
     
     
     def generate_tfidf_w2v_doc_keywords(self, w2v_file , keywords, y_train, Number_OF_Words, Number_OF_TF_IDF_Words ,Number_OF_Documents):
