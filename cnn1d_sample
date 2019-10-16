@@ -1,0 +1,158 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Sat Oct 12 12:40:06 2019
+
+@author: Noman
+"""
+
+import warnings
+warnings.filterwarnings("ignore")
+from gensim.models import Word2Vec
+from sklearn.decomposition import PCA
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy
+import numpy as np
+import pandas as pd
+
+from keras.preprocessing import sequence
+from keras_self_attention import SeqSelfAttention, SeqWeightedAttention
+
+from keras import backend
+from keras import backend as K
+from keras import models
+from keras.models import Sequential
+from keras.layers import Dense,LSTM, Dropout, Flatten, Embedding, Bidirectional
+from keras.layers import Conv1D,Conv2D, MaxPooling2D, MaxPooling1D
+
+from keras.optimizers import SGD,RMSprop,Adam
+from keras.regularizers import l2,l1
+
+from keras.callbacks import CSVLogger
+from keras.utils import to_categorical
+from keras.datasets import mnist
+from keras.utils.vis_utils import model_to_dot
+
+from IPython.display import SVG
+from sklearn.feature_extraction.text import TfidfTransformer
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.linear_model import LogisticRegression
+
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import roc_curve
+from sklearn.metrics import roc_auc_score
+from sklearn.model_selection import GridSearchCV
+
+
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
+from sklearn.metrics import classification_report, accuracy_score, confusion_matrix, roc_auc_score, roc_curve
+from sklearn import svm
+from sklearn import metrics
+from sklearn.metrics import precision_score
+from sklearn.metrics import recall_score
+from sklearn.metrics import f1_score
+from sklearn.metrics import cohen_kappa_score
+from sklearn.metrics import roc_auc_score
+from sklearn.pipeline import Pipeline
+from sklearn.manifold import TSNE
+from sklearn.metrics import confusion_matrix
+
+
+class BasicModels(object):
+    
+                
+#-------------------------------vectors----------------------------------------------
+#this file contains implementation of just one algorithm. just for sample purpose...
+
+
+    def Shape_Reshaper_Vec(_xTrain, _xTest): 
+    
+        print(_xTrain.shape)
+        print(_xTest.shape)
+        
+        dim1, dim2, dim3 = _xTrain.shape    
+        xTrain = _xTrain
+        print(xTrain.shape)        
+        
+        t_dim1, t_dim2, t_dim3 = _xTest.shape
+        xTest = _xTest
+        print(xTest.shape)
+        
+        _input_shape = (dim2,dim3)
+        print(_input_shape)
+
+        return xTrain,xTest,_input_shape
+    
+        
+    def CNN1D_Vec(self,_xTrain,_xTest, yTrain, yTest, _loss='mean_squared_error', _optimizer= 'SGD', _metrics=['accuracy'], _epochs = 100 , _validation_split = 0.2, _batch_size = 2, _verbose = 0 ):
+        print("--------------- CNN1D ---------------")  
+        
+        xTrain,xTest,_input_shape = BasicModels.Shape_Reshaper_Vec(_xTrain, _xTest)
+        
+        model = Sequential()
+        model.add(Conv1D(8, (3),strides=1, padding='same',activation='linear', input_shape=_input_shape))
+        model.add(Flatten()) 
+        model.add(Dense(1 ,activation='sigmoid'))
+        model.summary()
+        model.compile(loss=_loss, optimizer=_optimizer, metrics=_metrics)
+        model.fit(xTrain, yTrain, epochs=_epochs,  validation_split=_validation_split )
+        accuracy = model.evaluate(xTest, yTest,  verbose=_verbose)
+        print(accuracy)
+        
+        y_pred = model.predict_classes(xTest)
+        
+        print("=== Classification Report Conv 1D ===")
+        print(classification_report(yTest, y_pred))
+        print('\n')
+        print("=== Confusion Matrix Conv 1D ===")
+        print(confusion_matrix(yTest, y_pred))
+        print('\n')
+        print("=== AUC Score ===")
+        accuracy = accuracy_score(yTest, y_pred)
+        print('Accuracy: %f' % accuracy)
+        precision = precision_score(yTest, y_pred )
+        print('Precision: %f' % precision)
+        recall = recall_score(yTest, y_pred)
+        print('Recall: %f' % recall)
+        f1 = f1_score(yTest, y_pred)
+        print('F1 score: %f' % f1)
+        print("--------------- CNN1D ---------------") 
+        return model
+        
+
+             
+        
+    def ROC_CURVE_VEC(self, xTest, yTest, _models = [""], _labels= [""]):
+        print("ROC_CURVE_VECTOR_MODELS")
+        
+        from sklearn import metrics
+        import matplotlib.pyplot as plt
+        from sklearn.metrics import roc_curve
+        from sklearn.metrics import auc
+        
+        plt.figure(figsize=((4,4)))
+        classifiers = _models
+        labels = _labels
+        # Below for loop iterates through your models list
+        count = 0 
+        for m in classifiers:       
+            
+            pred_prob = m.predict_proba(xTest)
+            fpr_rf, tpr_rf, thresholds_rf = roc_curve(yTest, pred_prob)
+            
+            # Calculate Area under the curve to display on the plot
+            roc_auc = auc(fpr_rf, tpr_rf)
+            # Now, plot the computed values
+            plt.plot(fpr_rf, tpr_rf, label='%s ROC (area = %0.2f)' % (labels[count], roc_auc), linestyle='-.')
+            count = count + 1
+            
+        
+        plt.plot([0, 1], [0, 1],'r--')
+        plt.xlabel('False positive rate')
+        plt.ylabel('True positive rate')
+        plt.title('ROC curve')
+        plt.legend(loc='best')
+        plt.show()
+        
+   
