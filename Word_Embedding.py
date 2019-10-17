@@ -5,7 +5,7 @@
 Note!!!
 
 This file contains the implementation of w2vec generation on pre trained google news model. 
-Please do not consider it as a project. If you want to see complete applications, please contact me on email. 
+Please do not consider it as a project. If you want to see complete applications, please contact me on email(nomanashraf712@gmail.com). 
 
 """
 
