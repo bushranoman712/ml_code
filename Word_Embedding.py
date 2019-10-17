@@ -1,8 +1,12 @@
 # -*- coding: utf-8 -*-
 """
-Created on Fri Aug 16 19:26:44 2019
+@author: Noman Ashraf
 
-@author: Noman
+Note!!!
+
+This file contains the implementation of w2vec generation on pre trained google news model. 
+Please do not consider it as a project. If you want to see complete applications, please contact me on email. 
+
 """
 
 from sklearn.model_selection import train_test_split
@@ -45,7 +49,6 @@ class WordEmbeddings(object):
     
     def generate_googlepretrained_w2v_doc_or_tweet_keywords(self, w2v_file , keywords, y_train, vectors_per_document= 1):
         w2vmodel = models.KeyedVectors.load_word2vec_format(w2v_file, binary=True, limit=100000)
-        #w2vmodel = models.KeyedVectors.load_word2vec_format(w2v_file, binary=True, limit=1000000)
         print("Word 2 Vector File Loaded!")        
     
         vector = w2vmodel['easy']
