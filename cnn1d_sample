@@ -1,8 +1,12 @@
 # -*- coding: utf-8 -*-
 """
-Created on Sat Oct 12 12:40:06 2019
+Created on Sat Oct 12
+@author: Noman Ashraf
 
-@author: Noman
+Note!!!
+This file contains the implementation of one algorithm, just for sample purposes. 
+Please do not consider it like a project. If you need full project please contact me on email. 
+
 """
 
 import warnings
@@ -63,8 +67,6 @@ class BasicModels(object):
     
                 
 #-------------------------------vectors----------------------------------------------
-#this file contains implementation of just one algorithm. just for sample purpose...
-
 
     def Shape_Reshaper_Vec(_xTrain, _xTest): 
     
