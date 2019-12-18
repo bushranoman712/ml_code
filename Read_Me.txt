@@ -4,4 +4,6 @@ This is just for sample purpose to check the programming skills required to buil
 
 If you want to see complete application, please contact me on email (nomanashraf712@gmail.com).
 
+Results folder contains different project results.
+
 
